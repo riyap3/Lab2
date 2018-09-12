@@ -22,6 +22,8 @@ public class SolveMaze {
          */
         Maze maze = new Maze(10, 10);
 
+
+
         /*
          * Pick (0, 0), the bottom left corner, as the starting point.
          * Put the end in the top right corner.
@@ -35,6 +37,48 @@ public class SolveMaze {
          */
         for (int step = 0; step < 1000; step++) {
             // Implement your maze solving algorithm here
+        }
+        while (maze.isFinished() == false) {
+
+            Boolean canTurnRight = false;
+            Boolean canTurnLeft = false;
+            Boolean canGoStraight = false;
+            Boolean deadEnd = false;
+
+// Checking every direction to see where we can move and how many options.
+
+            if (maze.canMove()) {
+                canGoStraight = true;
+            }
+            maze.turnRight();
+            if (maze.canMove()) {
+                canTurnRight = true;
+            }
+            maze.turnRight();
+            maze.turnRight();
+            if (maze.canMove()) {
+                canTurnLeft = true;
+            }
+// if you can’t turn anywhere it is a dead end and you need to turn around.
+
+            if (canTurnRight == false && canTurnLeft == false &&
+                    canGoStraight == false) {
+                deadEnd = true;
+            }
+            if (deadEnd) {
+                maze.turnLeft();   //ended checking where we can turn while looking left.
+                maze.move();
+            } else if (canTurnRight) {
+                maze.turnLeft();
+                maze.turnLeft();
+                maze.move();
+            } else if (canGoStraight) {
+                maze.turnRight();
+                maze.move();
+            } else if (canTurnLeft) {
+                maze.move();
+            }
+
         }
 
         if (maze.isFinished()) {
